@@ -1,24 +1,34 @@
-import { Module } from '@nestjs/common';
+import { Module, Logger } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import databaseConfig from 'config/database';
+import database from 'config/database';
+import { AppService } from './app.service';
+import { ProductModule } from './product/product.module';
+import { resolve } from 'path';
+import { MysqlConnectionOptions } from 'typeorm/driver/mysql/MysqlConnectionOptions';
+
+const EnvPath = resolve(__dirname, '..', 'environment', '.env');
 
 @Module({
   imports: [
     /** Load and parse .env files from the environments directory */
     ConfigModule.forRoot({
-      envFilePath: 'src/environment/*.env',
-      load: [databaseConfig],
+      envFilePath: EnvPath,
+      load: [database],
       isGlobal: true,
     }),
     /** Configure TypeOrm asynchronously. */
     TypeOrmModule.forRootAsync({
-      useFactory: async (configService: ConfigService) =>
-        configService.get('database'),
+      imports: [ConfigModule],
+      useFactory: async (
+        configService: ConfigService,
+      ): Promise<MysqlConnectionOptions> => configService.get('database'),
       inject: [ConfigService],
     }),
+    ProductModule,
   ],
   controllers: [AppController],
+  providers: [AppService],
 })
 export class AppModule {}
