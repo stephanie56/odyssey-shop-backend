@@ -1,14 +1,13 @@
 import { Injectable } from '@nestjs/common';
-import { Observable, of } from 'rxjs';
 import { InjectRepository } from '@nestjs/typeorm';
-import { CustomProductRepository } from './product.repository';
+import { ProductRepository } from './product.repository';
 import { Product } from './product.entity';
 
 @Injectable()
 export class ProductService {
   constructor(
-    @InjectRepository(CustomProductRepository)
-    private readonly productRepository: CustomProductRepository,
+    @InjectRepository(ProductRepository)
+    private readonly productRepository: ProductRepository,
   ) {}
 
   async findAll(): Promise<Product[]> {
