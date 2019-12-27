@@ -1,29 +1,40 @@
-import { Module, Logger } from '@nestjs/common';
+import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import database from 'config/database';
+import mysqlDB from 'src/config/mysqlDB.config';
 import { AppService } from './app.service';
-import { ProductModule } from './product/product.module';
+import { ProductModule } from './app/product/product.module';
 import { resolve } from 'path';
 import { MysqlConnectionOptions } from 'typeorm/driver/mysql/MysqlConnectionOptions';
+import Joi = require('@hapi/joi');
 
-const EnvPath = resolve(__dirname, '..', 'environment', '.env');
+const EnvPath = resolve(
+  __dirname,
+  '..',
+  'environments',
+  `.env.${process.env.NODE_ENV || 'development'}`,
+);
 
 @Module({
   imports: [
     /** Load and parse .env files from the environments directory */
     ConfigModule.forRoot({
       envFilePath: EnvPath,
-      load: [database],
+      ignoreEnvFile: process.env.NODE_ENV === 'production', // ignore .env file when it's on production
+      load: [mysqlDB],
       isGlobal: true,
+      validationSchema: Joi.object({
+        NODE_ENV: Joi.string()
+          .valid('development', 'production', 'test')
+          .default('development'),
+      }),
     }),
     /** Configure TypeOrm asynchronously. */
     TypeOrmModule.forRootAsync({
-      imports: [ConfigModule],
       useFactory: async (
         configService: ConfigService,
-      ): Promise<MysqlConnectionOptions> => configService.get('database'),
+      ): Promise<MysqlConnectionOptions> => configService.get('mysqlDatabase'),
       inject: [ConfigService],
     }),
     ProductModule,
