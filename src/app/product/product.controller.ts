@@ -1,4 +1,13 @@
-import { Controller, Get, Param, NotFoundException } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Param,
+  NotFoundException,
+  Body,
+  Post,
+  Query,
+  Logger,
+} from '@nestjs/common';
 import { ProductService } from './product.service';
 import { Product } from './product.entity';
 
@@ -11,9 +20,6 @@ export class ProductController {
     return this.productService.findAll();
   }
 
-  /** findProductById take the route parameter (product id) as an input,
-   * and returns the Product json as a response.
-   */
   @Get(':id')
   async findProductById(@Param() params): Promise<Product> {
     const { id } = params;
@@ -24,5 +30,24 @@ export class ProductController {
     } else {
       return productOrNull;
     }
+  }
+
+  @Get()
+  async findProductByCategory(
+    @Query('categoryId') categoryId: string,
+  ): Promise<Product[]> {
+    const productsOrNull = await this.productService.findProductsByCategory(
+      categoryId,
+    );
+    if (!productsOrNull) {
+      throw new NotFoundException(`Cannot find products in this category`);
+    } else {
+      return productsOrNull;
+    }
+  }
+
+  @Post()
+  async create(@Body() createProductDto: Product): Promise<Product> {
+    return this.productService.createProduct(createProductDto);
   }
 }
