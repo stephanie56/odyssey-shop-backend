@@ -5,8 +5,6 @@ import {
   NotFoundException,
   Body,
   Post,
-  Query,
-  Logger,
 } from '@nestjs/common';
 import { ProductService } from './product.service';
 import { Product } from './product.entity';
@@ -29,20 +27,6 @@ export class ProductController {
       throw new NotFoundException(`Cannot find product #${id}`);
     } else {
       return productOrNull;
-    }
-  }
-
-  @Get()
-  async findProductByCategory(
-    @Query('categoryId') categoryId: string,
-  ): Promise<Product[]> {
-    const productsOrNull = await this.productService.findProductsByCategory(
-      categoryId,
-    );
-    if (!productsOrNull) {
-      throw new NotFoundException(`Cannot find products in this category`);
-    } else {
-      return productsOrNull;
     }
   }
 

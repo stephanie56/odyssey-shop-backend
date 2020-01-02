@@ -14,17 +14,12 @@ export class ProductService {
     return await this.productRepository.find();
   }
 
-  async findProductsByCategory(categoryId: string): Promise<Product[]> {
-    return await this.productRepository.find({ categoryId });
-  }
-
   async findProductById(id: string): Promise<Product> {
     return await this.productRepository.findOne(id);
   }
 
   async createProduct(createProductDto: Product): Promise<Product> {
     const {
-      categoryId,
       count,
       description,
       imgUrl,
@@ -32,10 +27,9 @@ export class ProductService {
       price,
       title,
     } = createProductDto;
-    const newProduct = this.productRepository.create();
+    const newProduct = await this.productRepository.create();
     return await this.productRepository.save({
       ...newProduct,
-      categoryId,
       count,
       description,
       imgUrl,
