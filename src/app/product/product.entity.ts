@@ -1,9 +1,23 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  ManyToMany,
+  JoinTable,
+} from 'typeorm';
+import { Category } from '../category/category.entity';
 
 @Entity({ name: 'product' })
 export class Product {
   @PrimaryGeneratedColumn('uuid')
   id: string;
+
+  @ManyToMany(
+    type => Category,
+    category => category.name,
+  )
+  @JoinTable()
+  categories: Category[];
 
   @Column('varchar', { length: 100 })
   title: string;

@@ -16,6 +16,6 @@ Sample request to create a new product:
 
 There are three categories of the products:
 
-- 8b1409b6-28e6-11ea-b71a-901fea3a623e: sticker
-- b1e8f042-28e6-11ea-b71a-901fea3a623e: souvenir
-- b1e8f394-28e6-11ea-b71a-901fea3a623e: outfit
+- 5ec07b74-7b80-4f3b-b5c8-16d78713aaa5: sticker
+- 62395017-d6a3-4581-b5c0-49a01c72d070: souvenir
+- 4a689953-0ce8-4e4d-bb34-9f36b9305291: outfit
