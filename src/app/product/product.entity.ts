@@ -2,8 +2,9 @@ import {
   Entity,
   Column,
   PrimaryGeneratedColumn,
-  ManyToMany,
-  JoinTable,
+  ManyToOne,
+  JoinColumn,
+  Check,
 } from 'typeorm';
 import { Category } from '../category/category.entity';
 
@@ -11,13 +12,6 @@ import { Category } from '../category/category.entity';
 export class Product {
   @PrimaryGeneratedColumn('uuid')
   id: string;
-
-  @ManyToMany(
-    type => Category,
-    category => category.name,
-  )
-  @JoinTable()
-  categories: Category[];
 
   @Column('varchar', { length: 100 })
   title: string;

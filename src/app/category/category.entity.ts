@@ -1,5 +1,4 @@
-import { Entity, Column, PrimaryGeneratedColumn, ManyToMany } from 'typeorm';
-import { Product } from '../product/product.entity';
+import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity({ name: 'category' })
 export class Category {
@@ -8,13 +7,4 @@ export class Category {
 
   @Column('varchar', { length: 20 })
   name: string;
-
-  @ManyToMany(
-    type => Product,
-    product => product.id,
-    {
-      cascade: ['insert'],
-    },
-  )
-  products: string[];
 }
