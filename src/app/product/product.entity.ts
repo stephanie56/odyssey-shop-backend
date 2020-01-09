@@ -1,28 +1,36 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  ManyToOne,
+  JoinColumn,
+  Check,
+} from 'typeorm';
+import { Category } from '../category/category.entity';
 
-@Entity({ name: 'Product' })
+@Entity({ name: 'product' })
 export class Product {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column()
-  categoryId: string;
-
-  @Column({ length: 100 })
+  @Column('varchar', { length: 100 })
   title: string;
 
-  @Column()
+  @Column('varchar', { length: 500 })
   description: string;
 
-  @Column()
+  @Column('varchar', { length: 500 })
   imgUrl: string;
 
-  @Column()
+  // precision represents total length of value including decimal places
+  // scale represents the number of digits after decimal point
+  @Column('decimal', { precision: 13, scale: 2, default: 0 })
   price: number;
 
-  @Column()
+  // integer between -8388608 and 8388607
+  @Column('mediumint')
   count: number;
 
-  @Column()
+  @Column('varchar', { length: 20 })
   origin: string;
 }

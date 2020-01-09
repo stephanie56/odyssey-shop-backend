@@ -8,6 +8,7 @@ import { ProductModule } from './app/product/product.module';
 import { resolve } from 'path';
 import { MysqlConnectionOptions } from 'typeorm/driver/mysql/MysqlConnectionOptions';
 import Joi = require('@hapi/joi');
+import { CategoryModule } from './app/category/category.module';
 
 const EnvPath = resolve(
   __dirname,
@@ -38,6 +39,7 @@ const EnvPath = resolve(
       inject: [ConfigService],
     }),
     ProductModule,
+    CategoryModule,
   ],
   controllers: [AppController],
   providers: [AppService],
