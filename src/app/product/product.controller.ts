@@ -5,9 +5,13 @@ import {
   NotFoundException,
   Body,
   Post,
+  Logger,
+  Delete,
+  Put,
 } from '@nestjs/common';
 import { ProductService } from './product.service';
 import { Product } from './product.entity';
+import { CreateProductDto } from './dto/createProduct.dto';
 
 @Controller('/api/products')
 export class ProductController {
@@ -33,5 +37,16 @@ export class ProductController {
   @Post()
   async create(@Body() createProductDto: Product): Promise<Product> {
     return this.productService.createProduct(createProductDto);
+  }
+
+  @Put()
+  async update(@Body() createProductDto: Product): Promise<Product> {
+    return await this.productService.updateProduct(createProductDto);
+  }
+
+  @Delete(':id')
+  async deleteProductById(@Param() params): Promise<Product> {
+    const { id } = params;
+    return await this.productService.removeProductById(id);
   }
 }
