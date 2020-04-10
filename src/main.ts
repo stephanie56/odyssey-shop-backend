@@ -18,7 +18,7 @@ const options = new DocumentBuilder()
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
-    cors: true,
+    cors: { origin: process.env.CLIENT_ORIGIN },
   });
 
   const document = SwaggerModule.createDocument(app, options);
@@ -26,6 +26,7 @@ async function bootstrap() {
   SwaggerModule.setup(SWAGGER_URL, app, document);
 
   app.use(helmet());
+
   await app.listen(PORT);
 
   /** Enable Hot-Module Replacement */
