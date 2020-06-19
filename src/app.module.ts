@@ -9,6 +9,7 @@ import { resolve } from 'path';
 import { MysqlConnectionOptions } from 'typeorm/driver/mysql/MysqlConnectionOptions';
 import Joi = require('@hapi/joi');
 import { CategoryModule } from './app/category/category.module';
+import { PaymentModule } from './app/payment/payment.module';
 
 const EnvPath = resolve(
   __dirname,
@@ -40,6 +41,7 @@ const EnvPath = resolve(
     }),
     ProductModule,
     CategoryModule,
+    PaymentModule,
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -15,9 +15,6 @@ yarn install
 The server is open on port `3000` in development mode.
 
 ```
-# development
-$ yarn start
-
 # watch mode
 $ yarn start:dev
 
