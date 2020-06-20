@@ -3,6 +3,7 @@ import { AppController } from './app.controller';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import mysqlDB from 'src/config/mysqlDB.config';
+import stripeConfig from 'src/config/stripe.config';
 import { AppService } from './app.service';
 import { ProductModule } from './app/product/product.module';
 import { resolve } from 'path';
@@ -24,7 +25,7 @@ const EnvPath = resolve(
     ConfigModule.forRoot({
       envFilePath: EnvPath,
       ignoreEnvFile: process.env.NODE_ENV === 'production', // ignore .env file when it's on production
-      load: [mysqlDB],
+      load: [mysqlDB, stripeConfig],
       isGlobal: true,
       validationSchema: Joi.object({
         NODE_ENV: Joi.string()
