@@ -19,6 +19,11 @@ export class ProductService {
     return await this.productRepository.findOne({ id });
   }
 
+  async findProductPriceById(id: string): Promise<number> {
+    const product = await this.productRepository.findOne({ id });
+    return product.price;
+  }
+
   async createProduct(createProductDto: CreateProductDto): Promise<Product> {
     const newProduct = this.productRepository.create(createProductDto);
     return this.productRepository.save(newProduct);

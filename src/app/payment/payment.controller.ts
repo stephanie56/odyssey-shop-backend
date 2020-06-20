@@ -9,12 +9,12 @@ export class PaymentController {
   async createPaymentMethod(
     @Body() createPaymentIntentData: any,
   ): Promise<any> {
-    const { cartTotal } = createPaymentIntentData;
-    // const amount = this.paymentService.calculateOrderAmount(items);
+    const { items } = createPaymentIntentData;
+    const amount = await this.paymentService.calculateOrderAmount(items);
     const res = await this.paymentService
       .getStripeClient()
       .paymentIntents.create({
-        amount: cartTotal * 100,
+        amount,
         currency: 'cad',
         payment_method_types: ['card'],
       })
