@@ -1,14 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import Stripe from 'stripe';
 import { InjectStripe } from 'nestjs-stripe';
-import { InjectRepository } from '@nestjs/typeorm';
-import { ProductRepository } from '../product/product.repository';
 import { ProductService } from '../product/product.service';
-
-interface CartItem {
-  productId: string;
-  quantity: number;
-}
+import { CartItem } from './dto/cartItem.dto';
 
 @Injectable()
 export class PaymentService {

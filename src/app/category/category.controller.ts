@@ -5,9 +5,11 @@ import {
   NotFoundException,
   Post,
   Body,
+  Delete,
 } from '@nestjs/common';
 import { CategoryService } from './category.service';
 import { Category } from './category.entity';
+import { CreateCategoryDto } from './dto/createCategory.dto';
 
 @Controller('/api/categories')
 export class CategoryController {
@@ -30,7 +32,13 @@ export class CategoryController {
   }
 
   @Post()
-  async create(@Body() createCategoryDto: Category): Promise<Category> {
-    return this.categoryService.createCategory(createCategoryDto);
+  async create(@Body() category: CreateCategoryDto): Promise<Category> {
+    return this.categoryService.createCategory(category);
+  }
+
+  @Delete(':id')
+  async delete(@Param() params): Promise<Category> {
+    const { id } = params;
+    return this.categoryService.removeCategoryById(id);
   }
 }

@@ -1,11 +1,4 @@
-import {
-  Entity,
-  Column,
-  PrimaryGeneratedColumn,
-  ManyToOne,
-  JoinColumn,
-  Check,
-} from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
 import { Category } from '../category/category.entity';
 
 @Entity({ name: 'product' })
@@ -19,7 +12,7 @@ export class Product {
   @Column('varchar', { length: 500 })
   description: string;
 
-  @Column('varchar', { length: 500 })
+  @Column('varchar', { length: 500, nullable: true })
   imgUrl: string;
 
   // precision represents total length of value including decimal places
@@ -33,4 +26,10 @@ export class Product {
 
   @Column('varchar', { length: 20 })
   origin: string;
+
+  @ManyToOne(
+    type => Category,
+    category => category.products,
+  )
+  category: Category;
 }

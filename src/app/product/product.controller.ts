@@ -12,6 +12,7 @@ import {
 import { ProductService } from './product.service';
 import { Product } from './product.entity';
 import { CreateProductDto } from './dto/createProduct.dto';
+import { UpdateProductDto } from './dto/updateProduct.dto';
 
 @Controller('/api/products')
 export class ProductController {
@@ -35,13 +36,13 @@ export class ProductController {
   }
 
   @Post()
-  async create(@Body() createProductDto: Product): Promise<Product> {
+  async create(@Body() createProductDto: CreateProductDto): Promise<Product> {
     return this.productService.createProduct(createProductDto);
   }
 
   @Put()
-  async update(@Body() createProductDto: Product): Promise<Product> {
-    return await this.productService.updateProduct(createProductDto);
+  async update(@Body() product: UpdateProductDto): Promise<Product> {
+    return await this.productService.updateProduct(product);
   }
 
   @Delete(':id')
